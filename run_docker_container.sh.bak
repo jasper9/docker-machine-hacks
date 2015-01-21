@@ -1,0 +1,28 @@
+#!/bin/bash
+
+source ~/.bash_profile
+
+NUM_NODES=`machine ls | grep vsphere | wc -l`
+
+if [ $NUM_NODES -eq 0 ]; then
+	/root/vro/deploy_docker_node.sh
+	NUM_NODES=`machine ls | grep vsphere | wc -l`
+fi
+	
+
+USE_NODE=$(( ( RANDOM % $NUM_NODES ) ))
+
+MACHINE=dockervm$USE_NODE
+MACHINE_URL=`machine url $MACHINE`
+MACHINE_OUTPUT=`machine active $MACHINE`
+
+echo "Using node $MACHINE"
+echo "URL is $MACHINE_URL"
+
+#echo "export DOCKER_HOST=`machine url $MACHINE` DOCKER_AUTH=identity" >> set_envs.sh
+#source ./set_envs.sh
+
+#echo "DOCKER_HOST=$DOCKER_HOST"
+#`echo $DOCKER_HOST`
+#echo "DOCKER_AUTH=$DOCKER_AUTH"
+DOCKER_HOST=`machine url $MACHINE` DOCKER_AUTH=identity ; yes | /usr/bin/docker run -d -t -p 80:80  util-01a:5000/centos6:stg-v5 /bin/bash -c '/startup.sh && /bin/bash'
