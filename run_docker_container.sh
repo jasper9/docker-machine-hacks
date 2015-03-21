@@ -11,7 +11,7 @@ MACHINE_OUTPUT=`machine active $MACHINE`
 export DOCKER_HOST=`machine url $MACHINE` 
 export DOCKER_AUTH=identity
 
-yes | /usr/bin/docker run -d -t -p $2:80 -a stderr  docker-hub:5000/centos6:v2 /bin/bash -c '/startup.sh && /bin/bash' >/dev/null 2>&1
+yes | /usr/bin/docker run -d -t -p $2:80 -a stderr  docker-hub:5000/centos6:v4 /bin/bash -c '/startup.sh && /bin/bash' >/dev/null 2>&1
 
 
 docker ps | grep 777 | awk '{ print $1 }'
