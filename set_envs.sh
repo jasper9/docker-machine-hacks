@@ -1,1 +1,1 @@
-export DOCKER_HOST=tcp://192.168.100.194:2376 DOCKER_AUTH=identity
+export DOCKER_HOST= DOCKER_AUTH=identity
